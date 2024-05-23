@@ -118,10 +118,6 @@ func NewWal(fileName string) *Wal {
 				continue
 			}
 
-			log.Printf(
-				"Flushing WAL buffer to file",
-			)
-
 			wal.syncLock.Lock()
 
 			for _, entry := range wal.buffer {
@@ -135,10 +131,10 @@ func NewWal(fileName string) *Wal {
 				binary.Write(wal.file, binary.LittleEndian, valueBytes)
 			}
 
-			// binary.Write(file, binary.LittleEndian, )
 			file.Sync()
 			wal.buffer = make([]LogEntry, 0)
 			wal.syncLock.Unlock()
+			time.Sleep(1000 * time.Millisecond)
 		}
 	}()
 
@@ -146,11 +142,8 @@ func NewWal(fileName string) *Wal {
 }
 
 func (wal *Wal) Write(key string, value string) {
-	log.Printf(
-		"Writing to WAL buffer key: %s, value: %s",
-		key,
-		value,
-	)
+	wal.syncLock.Lock()
+	defer wal.syncLock.Unlock()
 
 	wal.buffer = append(wal.buffer, LogEntry{
 		timestamp: time.Now().Unix(),
