@@ -1,0 +1,13 @@
+name: rolodex
+
+services:
+  server:
+    image: rolodex
+    build: .
+
+    ports:
+      - 1337
+  load-test:
+    image: rolodex
+    build: .
+    command: ["--", "--load-test", "true", "--host", "server"]

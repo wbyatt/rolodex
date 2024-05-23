@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	host     = flag.String("host", "localhost", "The Rolodex API host (or server target when running in client mode)")
 	port     = flag.Int("port", 1337, "The Rolodex API port")
 	loadTest = flag.Bool(
 		"load-test",
@@ -19,7 +20,7 @@ func main() {
 	flag.Parse()
 
 	if *loadTest {
-		client.Main()
+		client.Main(port, host)
 	} else {
 		server.Main(port)
 	}

@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -72,8 +71,6 @@ func (s *server) List(ctx context.Context, _empty_req *emptypb.Empty) (*api.List
 }
 
 func Main(port *int) {
-	flag.Parse()
-
 	listener, error := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 
 	if error != nil {

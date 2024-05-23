@@ -11,11 +11,15 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func Main() {
+func Main(port *int, host *string) {
 	log.Printf("Spinning up client")
 
 	conn, err := grpc.NewClient(
-		"localhost:1337",
+		fmt.Sprintf(
+			"%v:%v",
+			*host,
+			*port,
+		),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 
