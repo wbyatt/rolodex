@@ -9,7 +9,13 @@ import (
 type Store struct {
 	lock sync.Mutex
 	data map[string]string
-	wal  *Wal
+	Wal  *Wal
+}
+
+type Mutation struct {
+	index uint64
+	key   string
+	value string
 }
 
 type KeyValuePair struct {

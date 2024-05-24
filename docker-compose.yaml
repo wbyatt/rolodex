@@ -4,10 +4,12 @@ services:
   server:
     image: rolodex
     build: .
-
+    scale: 3
     ports:
       - 1337
+      - 7331
+    command: [ "--discovery-url", "server:7331" ]
   load-test:
     image: rolodex
     build: .
-    command: ["--", "--load-test", "true", "--host", "server"]
+    command: [ "--load-test", "true", "--host", "server" ]
